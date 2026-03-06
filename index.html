@@ -947,6 +947,23 @@
             color: #999;
         }
 
+        .music-track-display {
+            width: 100%;
+            padding: 8px 12px;
+            font-size: 11px;
+            color: #666;
+            background: rgba(255, 255, 255, 0.5);
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            text-align: center;
+            font-family: inherit;
+        }
+
+        .music-track-display:active {
+            background: rgba(255, 255, 255, 0.8);
+        }
+
         .music-album {
             cursor: pointer;
         }
@@ -1743,7 +1760,9 @@
                                 <span class="music-heart">♡</span>
                             </div>
                             <input type="file" id="albumCoverInput" accept="image/*" style="display:none;" onchange="handleAlbumCoverSelect(event)">
-                            <input type="text" class="music-track-input" id="musicTrackInput" placeholder="输入曲目名称..." onchange="updateMusicTrack()">
+                            <div class="music-track-display" id="musicTrackDisplay" onclick="editMusicTrack()">
+                                <span id="musicTrackName">点击设置曲目</span>
+                            </div>
                             <div class="music-controls">
                                 <span>⏮</span>
                                 <span>⏭</span>
@@ -1833,6 +1852,12 @@
                             <span class="dock-name">云盘</span>
                         </div>
                     </div>
+                </div>
+
+                <!-- 页面指示器 -->
+                <div class="page-dots">
+                    <span class="page-dot" data-page="1"></span>
+                    <span class="page-dot active" data-page="2"></span>
                 </div>
 
                 <div class="home-bar"></div>
@@ -2181,9 +2206,24 @@
             event.target.value = '';
         }
 
+        function editMusicTrack() {
+            const currentTrack = document.getElementById('musicTrackName').textContent;
+            const newTrack = prompt('请输入曲目名称:', currentTrack === '点击设置曲目' ? '' : currentTrack);
+            if (newTrack && newTrack.trim()) {
+                document.getElementById('musicTrackName').textContent = newTrack.trim();
+                localStorage.setItem('widgetMusicTrack', newTrack.trim());
+            }
+        }
+
         function updateMusicTrack() {
-            const trackName = document.getElementById('musicTrackInput').value;
-            localStorage.setItem('widgetMusicTrack', trackName);
+            const trackName = document.getElementById('musicTrackInput')?.value;
+            if (trackName) {
+                localStorage.setItem('widgetMusicTrack', trackName);
+                const trackDisplay = document.getElementById('musicTrackName');
+                if (trackDisplay) {
+                    trackDisplay.textContent = trackName;
+                }
+            }
         }
 
         // 加载保存的音乐播放器设置
@@ -2191,14 +2231,24 @@
             const savedCover = localStorage.getItem('widgetAlbumCover');
             if (savedCover) {
                 const img = document.getElementById('albumCoverImg');
-                img.src = savedCover;
-                img.style.display = 'block';
-                document.getElementById('albumArtPlaceholder').style.display = 'none';
+                if (img) {
+                    img.src = savedCover;
+                    img.style.display = 'block';
+                }
+                const placeholder = document.getElementById('albumArtPlaceholder');
+                if (placeholder) {
+                    placeholder.style.display = 'none';
+                }
             }
 
             const savedTrack = localStorage.getItem('widgetMusicTrack');
-            if (savedTrack) {
-                document.getElementById('musicTrackInput').value = savedTrack;
+            const trackDisplay = document.getElementById('musicTrackName');
+            if (trackDisplay) {
+                trackDisplay.textContent = savedTrack || '点击设置曲目';
+            }
+            const trackInput = document.getElementById('musicTrackInput');
+            if (trackInput && savedTrack) {
+                trackInput.value = savedTrack;
             }
         }
 
@@ -2214,7 +2264,26 @@
             currentPage = pageNum;
             const homeScreen1 = document.getElementById('homeScreen');
             const homeScreen2 = document.getElementById('homeScreen2');
-            const dots = document.querySelectorAll('.page-dot');
+            
+            // 更新第一页的小圆点
+            const dots1 = homeScreen1.querySelectorAll('.page-dot');
+            dots1.forEach((dot, index) => {
+                if (index + 1 === pageNum) {
+                    dot.classList.add('active');
+                } else {
+                    dot.classList.remove('active');
+                }
+            });
+            
+            // 更新第二页的小圆点
+            const dots2 = homeScreen2.querySelectorAll('.page-dot');
+            dots2.forEach((dot, index) => {
+                if (index + 1 === pageNum) {
+                    dot.classList.add('active');
+                } else {
+                    dot.classList.remove('active');
+                }
+            });
 
             if (pageNum === 1) {
                 homeScreen1.classList.add('active');
@@ -2223,57 +2292,65 @@
                 homeScreen1.classList.remove('active');
                 homeScreen2.classList.add('active');
             }
-
-            dots.forEach((dot, index) => {
-                if (index + 1 === pageNum) {
-                    dot.classList.add('active');
-                } else {
-                    dot.classList.remove('active');
-                }
-            });
         }
 
-        // ==================== 电脑端页面滑动支持 ====================
-        let homeStartX = 0;
-        let homeIsDragging = false;
+        // ==================== 页面滑动支持 (手机端+电脑端) ====================
+        let slideStartX = 0;
+        let slideCurrentX = 0;
+        let isSliding = false;
+        let slideThreshold = 80;
         
         document.addEventListener('DOMContentLoaded', function() {
             const phoneContainer = document.querySelector('.phone-container');
             
             if (phoneContainer) {
-                // 鼠标按下
-                phoneContainer.addEventListener('mousedown', (e) => {
+                // 鼠标/触摸开始
+                const startSlide = (x) => {
                     // 只在主屏幕区域响应滑动
-                    if (!document.getElementById('homeScreen').classList.contains('active') &&
-                        !document.getElementById('homeScreen2').classList.contains('active')) {
+                    const homeScreen = document.getElementById('homeScreen');
+                    const homeScreen2 = document.getElementById('homeScreen2');
+                    if (!homeScreen.classList.contains('active') && !homeScreen2.classList.contains('active')) {
                         return;
                     }
-                    homeStartX = e.clientX;
-                    homeIsDragging = true;
-                });
+                    slideStartX = x;
+                    slideCurrentX = x;
+                    isSliding = true;
+                };
                 
-                // 鼠标松开
-                phoneContainer.addEventListener('mouseup', (e) => {
-                    if (!homeIsDragging) return;
+                // 鼠标/触摸移动
+                const moveSlide = (x) => {
+                    if (!isSliding) return;
+                    slideCurrentX = x;
+                };
+                
+                // 鼠标/触摸结束
+                const endSlide = () => {
+                    if (!isSliding) return;
                     
-                    const diff = e.clientX - homeStartX;
+                    const diff = slideCurrentX - slideStartX;
                     
                     // 第一页右滑切换到第二页
-                    if (diff > 80 && currentPage === 1) {
+                    if (diff > slideThreshold && currentPage === 1) {
                         switchPage(2);
                     }
                     // 第二页左滑切换到第一页
-                    else if (diff < -80 && currentPage === 2) {
+                    else if (diff < -slideThreshold && currentPage === 2) {
                         switchPage(1);
                     }
                     
-                    homeIsDragging = false;
-                });
+                    isSliding = false;
+                };
                 
-                // 鼠标离开容器
-                phoneContainer.addEventListener('mouseleave', () => {
-                    homeIsDragging = false;
-                });
+                // 鼠标事件
+                phoneContainer.addEventListener('mousedown', (e) => startSlide(e.clientX));
+                phoneContainer.addEventListener('mousemove', (e) => moveSlide(e.clientX));
+                phoneContainer.addEventListener('mouseup', endSlide);
+                phoneContainer.addEventListener('mouseleave', () => isSliding = false);
+                
+                // 触摸事件 (手机端)
+                phoneContainer.addEventListener('touchstart', (e) => startSlide(e.touches[0].clientX), { passive: true });
+                phoneContainer.addEventListener('touchmove', (e) => moveSlide(e.touches[0].clientX), { passive: true });
+                phoneContainer.addEventListener('touchend', endSlide);
             }
         });
 
