@@ -488,11 +488,13 @@
             display: flex;
             flex-direction: column;
             opacity: 0;
+            pointer-events: none;
             transition: opacity 0.3s ease;
         }
 
         .home-screen.active {
             opacity: 1;
+            pointer-events: auto;
         }
 
         /* 应用程序网格 */
@@ -661,55 +663,6 @@
                 0 1px 0 rgba(255, 255, 255, 0.1);
         }
 
-        /* 第二页 */
-        .home-screen-2 {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(180deg, rgba(250, 250, 250, 0.95) 0%, rgba(240, 240, 240, 0.95) 100%);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            padding-top: 47px;
-            display: flex;
-            flex-direction: column;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-            z-index: 50;
-        }
-
-        .home-screen-2.active {
-            opacity: 1;
-            z-index: 60;
-        }
-
-        /* 页面指示器 */
-        .page-dots {
-            position: absolute;
-            bottom: 40px;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            gap: 8px;
-            z-index: 70;
-        }
-
-        .page-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: rgba(0, 0, 0, 0.2);
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .page-dot.active {
-            width: 20px;
-            border-radius: 4px;
-            background: rgba(0, 0, 0, 0.5);
-        }
-
         /* 桌面小组件 - 新拟态风格 */
         .widget-container {
             padding: 16px;
@@ -813,7 +766,20 @@
         .widget-middle {
             display: flex;
             gap: 16px;
-            justify-content: flex-start;
+        }
+
+        /* 左侧时钟组件 */
+        .widget-clock {
+            flex: 1;
+            background: linear-gradient(145deg, #e8e8e8, #d0d0d0);
+            border-radius: 24px;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 
+                8px 8px 16px rgba(0, 0, 0, 0.1),
+                -8px -8px 16px rgba(255, 255, 255, 0.8);
         }
 
         .clock-face {
@@ -875,6 +841,7 @@
 
         /* 右侧音乐组件 */
         .widget-music {
+            flex: 1;
             background: linear-gradient(145deg, #e8e8e8, #d0d0d0);
             border-radius: 24px;
             padding: 16px;
@@ -884,8 +851,6 @@
             box-shadow: 
                 8px 8px 16px rgba(0, 0, 0, 0.1),
                 -8px -8px 16px rgba(255, 255, 255, 0.8);
-            width: 180px;
-            flex-shrink: 0;
         }
 
         .music-album {
@@ -947,67 +912,7 @@
             color: #999;
         }
 
-        .music-track-display {
-            width: 100%;
-            padding: 8px 12px;
-            font-size: 11px;
-            color: #666;
-            background: rgba(255, 255, 255, 0.5);
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            text-align: center;
-            font-family: inherit;
-        }
-
-        .music-track-display:active {
-            background: rgba(255, 255, 255, 0.8);
-        }
-
         .music-album {
-            cursor: pointer;
-        }
-
-        /* 用户头像组件 */
-        .user-profile-section {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-left: auto;
-        }
-
-        .user-avatar {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background: linear-gradient(145deg, #667eea, #764ba2);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 20px;
-            color: white;
-            font-weight: 600;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-            cursor: pointer;
-        }
-
-        .user-avatar img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            border-radius: 50%;
-        }
-
-        .user-name {
-            font-size: 14px;
-            font-weight: 600;
-            color: #333;
-            cursor: pointer;
-        }
-
-        .user-bio {
-            font-size: 11px;
-            color: #888;
             cursor: pointer;
         }
 
@@ -1017,6 +922,56 @@
             gap: 20px;
             font-size: 18px;
             color: #333;
+        }
+
+        /* 右侧头像组件 */
+        .widget-profile {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        .profile-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(145deg, #e8e8e8, #d0d0d0);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 
+                0 0 20px rgba(0, 0, 0, 0.1),
+                8px 8px 16px rgba(0, 0, 0, 0.1),
+                -8px -8px 16px rgba(255, 255, 255, 0.8);
+            cursor: pointer;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .profile-avatar span {
+            font-size: 24px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .profile-name-input {
+            width: 80px;
+            padding: 6px 8px;
+            font-size: 11px;
+            color: #666;
+            background: rgba(255, 255, 255, 0.5);
+            border: none;
+            border-radius: 8px;
+            outline: none;
+            text-align: center;
+            font-family: inherit;
+        }
+
+        .profile-name-input::placeholder {
+            color: #999;
         }
 
         /* 底部上传按钮 */
@@ -1760,27 +1715,21 @@
                                 <span class="music-heart">♡</span>
                             </div>
                             <input type="file" id="albumCoverInput" accept="image/*" style="display:none;" onchange="handleAlbumCoverSelect(event)">
-                            <div class="music-track-display" id="musicTrackDisplay" onclick="editMusicTrack()">
-                                <span id="musicTrackName">点击设置曲目</span>
-                            </div>
+                            <input type="text" class="music-track-input" id="musicTrackInput" placeholder="输入曲目名称..." onchange="updateMusicTrack()">
                             <div class="music-controls">
                                 <span>⏮</span>
                                 <span>⏭</span>
                             </div>
                         </div>
-                        
-                        <!-- 用户头像组件 -->
-                        <div class="user-profile-section">
-                            <div class="user-avatar" id="userAvatar" onclick="document.getElementById('userAvatarInput').click()">
-                                <span id="userAvatarText">FT</span>
+
+                        <!-- 右侧头像组件 -->
+                        <div class="widget-profile">
+                            <div class="profile-avatar" onclick="document.getElementById('profileAvatarInput').click()">
+                                <img id="profileAvatarImg" src="" style="display:none; width:100%;height:100%;object-fit:cover;border-radius:50%;">
+                                <span id="profileAvatarText">FT</span>
                             </div>
-                            <input type="file" id="userAvatarInput" accept="image/*" style="display:none;" onchange="handleUserAvatarSelect(event)">
-                            <div>
-                                <div class="user-name" id="userName" onclick="editUserName()">FT</div>
-                                <div class="user-bio" id="userBio" onclick="editUserBio()">loveyou</div>
-                            </div>
-                            <input type="text" id="userNameInput" style="display:none;" onchange="updateUserName()">
-                            <input type="text" id="userBioInput" style="display:none;" onchange="updateUserBio()">
+                            <input type="file" id="profileAvatarInput" accept="image/*" style="display:none;" onchange="handleProfileAvatarSelect(event)">
+                            <input type="text" class="profile-name-input" id="profileNameInput" placeholder="输入名字..." onchange="updateProfileName()">
                         </div>
                     </div>
 
@@ -1794,34 +1743,6 @@
                     </div>
                 </div>
 
-                <div class="dock-container">
-                    <div class="dock">
-                        <div class="dock-item">
-                            <div class="dock-icon"><img src="https://picui.ogmua.cn/s1/2026/03/06/69aaa0306093a.webp" alt="相机"></div>
-                            <span class="dock-name">相机</span>
-                        </div>
-                        <div class="dock-item">
-                            <div class="dock-icon"><img src="https://picui.ogmua.cn/s1/2026/03/06/69aaa0304bab2.webp" alt="照片"></div>
-                            <span class="dock-name">照片</span>
-                        </div>
-                        <div class="dock-item">
-                            <div class="dock-icon">☁️</div>
-                            <span class="dock-name">云盘</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- 页面指示器 -->
-                <div class="page-dots">
-                    <span class="page-dot active" data-page="1"></span>
-                    <span class="page-dot" data-page="2"></span>
-                </div>
-
-                <div class="home-bar"></div>
-            </div>
-
-            <!-- 第二页 -->
-            <div class="home-screen-2" id="homeScreen2">
                 <div class="apps-grid">
                     <div class="app-item" data-app="wechat">
                         <div class="app-icon wechat"><img src="https://picui.ogmua.cn/s1/2026/03/06/69aaa030471c0.webp" alt="微信"></div>
@@ -1852,12 +1773,6 @@
                             <span class="dock-name">云盘</span>
                         </div>
                     </div>
-                </div>
-
-                <!-- 页面指示器 -->
-                <div class="page-dots">
-                    <span class="page-dot" data-page="1"></span>
-                    <span class="page-dot active" data-page="2"></span>
                 </div>
 
                 <div class="home-bar"></div>
@@ -2097,7 +2012,6 @@
             renderChatList();
             loadSettings();
             loadWidgetMusicSettings();
-            loadUserSettings();
 
             // 滑动解锁
             const slideArea = document.getElementById('slideToUnlock');
@@ -2206,24 +2120,9 @@
             event.target.value = '';
         }
 
-        function editMusicTrack() {
-            const currentTrack = document.getElementById('musicTrackName').textContent;
-            const newTrack = prompt('请输入曲目名称:', currentTrack === '点击设置曲目' ? '' : currentTrack);
-            if (newTrack && newTrack.trim()) {
-                document.getElementById('musicTrackName').textContent = newTrack.trim();
-                localStorage.setItem('widgetMusicTrack', newTrack.trim());
-            }
-        }
-
         function updateMusicTrack() {
-            const trackName = document.getElementById('musicTrackInput')?.value;
-            if (trackName) {
-                localStorage.setItem('widgetMusicTrack', trackName);
-                const trackDisplay = document.getElementById('musicTrackName');
-                if (trackDisplay) {
-                    trackDisplay.textContent = trackName;
-                }
-            }
+            const trackName = document.getElementById('musicTrackInput').value;
+            localStorage.setItem('widgetMusicTrack', trackName);
         }
 
         // 加载保存的音乐播放器设置
@@ -2231,201 +2130,56 @@
             const savedCover = localStorage.getItem('widgetAlbumCover');
             if (savedCover) {
                 const img = document.getElementById('albumCoverImg');
-                if (img) {
-                    img.src = savedCover;
-                    img.style.display = 'block';
-                }
-                const placeholder = document.getElementById('albumArtPlaceholder');
-                if (placeholder) {
-                    placeholder.style.display = 'none';
-                }
+                img.src = savedCover;
+                img.style.display = 'block';
+                document.getElementById('albumArtPlaceholder').style.display = 'none';
             }
 
             const savedTrack = localStorage.getItem('widgetMusicTrack');
-            const trackDisplay = document.getElementById('musicTrackName');
-            if (trackDisplay) {
-                trackDisplay.textContent = savedTrack || '点击设置曲目';
+            if (savedTrack) {
+                document.getElementById('musicTrackInput').value = savedTrack;
             }
-            const trackInput = document.getElementById('musicTrackInput');
-            if (trackInput && savedTrack) {
-                trackInput.value = savedTrack;
+
+            // 加载头像设置
+            const savedAvatar = localStorage.getItem('widgetProfileAvatar');
+            if (savedAvatar) {
+                const img = document.getElementById('profileAvatarImg');
+                img.src = savedAvatar;
+                img.style.display = 'block';
+                document.getElementById('profileAvatarText').style.display = 'none';
             }
-        }
 
-        // ==================== 锁屏/解锁 ====================
-        let currentPage = 1;
-
-        function unlockPhone() {
-            document.getElementById('lockScreen').classList.add('hidden');
-            document.getElementById('homeScreen').classList.add('active');
-        }
-
-        function switchPage(pageNum) {
-            currentPage = pageNum;
-            const homeScreen1 = document.getElementById('homeScreen');
-            const homeScreen2 = document.getElementById('homeScreen2');
-            
-            // 更新第一页的小圆点
-            const dots1 = homeScreen1.querySelectorAll('.page-dot');
-            dots1.forEach((dot, index) => {
-                if (index + 1 === pageNum) {
-                    dot.classList.add('active');
-                } else {
-                    dot.classList.remove('active');
-                }
-            });
-            
-            // 更新第二页的小圆点
-            const dots2 = homeScreen2.querySelectorAll('.page-dot');
-            dots2.forEach((dot, index) => {
-                if (index + 1 === pageNum) {
-                    dot.classList.add('active');
-                } else {
-                    dot.classList.remove('active');
-                }
-            });
-
-            if (pageNum === 1) {
-                homeScreen1.classList.add('active');
-                homeScreen2.classList.remove('active');
-            } else {
-                homeScreen1.classList.remove('active');
-                homeScreen2.classList.add('active');
+            const savedName = localStorage.getItem('widgetProfileName');
+            if (savedName) {
+                document.getElementById('profileNameInput').value = savedName;
             }
         }
 
-        // ==================== 页面滑动支持 (手机端+电脑端) ====================
-        let slideStartX = 0;
-        let slideCurrentX = 0;
-        let isSliding = false;
-        let slideThreshold = 80;
-        
-        document.addEventListener('DOMContentLoaded', function() {
-            const phoneContainer = document.querySelector('.phone-container');
-            
-            if (phoneContainer) {
-                // 鼠标/触摸开始
-                const startSlide = (x) => {
-                    // 只在主屏幕区域响应滑动
-                    const homeScreen = document.getElementById('homeScreen');
-                    const homeScreen2 = document.getElementById('homeScreen2');
-                    if (!homeScreen.classList.contains('active') && !homeScreen2.classList.contains('active')) {
-                        return;
-                    }
-                    slideStartX = x;
-                    slideCurrentX = x;
-                    isSliding = true;
-                };
-                
-                // 鼠标/触摸移动
-                const moveSlide = (x) => {
-                    if (!isSliding) return;
-                    slideCurrentX = x;
-                };
-                
-                // 鼠标/触摸结束
-                const endSlide = () => {
-                    if (!isSliding) return;
-                    
-                    const diff = slideCurrentX - slideStartX;
-                    
-                    // 第一页右滑切换到第二页
-                    if (diff > slideThreshold && currentPage === 1) {
-                        switchPage(2);
-                    }
-                    // 第二页左滑切换到第一页
-                    else if (diff < -slideThreshold && currentPage === 2) {
-                        switchPage(1);
-                    }
-                    
-                    isSliding = false;
-                };
-                
-                // 鼠标事件
-                phoneContainer.addEventListener('mousedown', (e) => startSlide(e.clientX));
-                phoneContainer.addEventListener('mousemove', (e) => moveSlide(e.clientX));
-                phoneContainer.addEventListener('mouseup', endSlide);
-                phoneContainer.addEventListener('mouseleave', () => isSliding = false);
-                
-                // 触摸事件 (手机端)
-                phoneContainer.addEventListener('touchstart', (e) => startSlide(e.touches[0].clientX), { passive: true });
-                phoneContainer.addEventListener('touchmove', (e) => moveSlide(e.touches[0].clientX), { passive: true });
-                phoneContainer.addEventListener('touchend', endSlide);
-            }
-        });
-
-        // ==================== 用户头像功能 ====================
-        function handleUserAvatarSelect(event) {
+        function handleProfileAvatarSelect(event) {
             const file = event.target.files[0];
             if (!file) return;
 
             const reader = new FileReader();
             reader.onload = function(e) {
-                const avatarEl = document.getElementById('userAvatar');
-                avatarEl.innerHTML = `<img src="${e.target.result}" alt="头像">`;
-                localStorage.setItem('userAvatar', e.target.result);
+                const img = document.getElementById('profileAvatarImg');
+                img.src = e.target.result;
+                img.style.display = 'block';
+                document.getElementById('profileAvatarText').style.display = 'none';
+                localStorage.setItem('widgetProfileAvatar', e.target.result);
             };
             reader.readAsDataURL(file);
             event.target.value = '';
         }
 
-        function updateUserName() {
-            const name = document.getElementById('userNameInput').value;
-            if (name) {
-                document.getElementById('userName').textContent = name;
-                document.getElementById('userAvatarText').textContent = name.charAt(0).toUpperCase();
-                localStorage.setItem('userName', name);
-            }
+        function updateProfileName() {
+            const name = document.getElementById('profileNameInput').value;
+            localStorage.setItem('widgetProfileName', name);
         }
 
-        function updateUserBio() {
-            const bio = document.getElementById('userBioInput').value;
-            if (bio) {
-                document.getElementById('userBio').textContent = bio;
-                localStorage.setItem('userBio', bio);
-            }
-        }
-        
-        // 改进的用户名编辑功能 - 使用prompt
-        function editUserName() {
-            const currentName = document.getElementById('userName').textContent;
-            const newName = prompt('请输入您的名字:', currentName);
-            if (newName && newName.trim()) {
-                document.getElementById('userName').textContent = newName.trim();
-                document.getElementById('userAvatarText').textContent = newName.trim().charAt(0).toUpperCase();
-                localStorage.setItem('userName', newName.trim());
-            }
-        }
-        
-        // 改进的用户简介编辑功能 - 使用prompt
-        function editUserBio() {
-            const currentBio = document.getElementById('userBio').textContent;
-            const newBio = prompt('请输入您的个人简介:', currentBio);
-            if (newBio && newBio.trim()) {
-                document.getElementById('userBio').textContent = newBio.trim();
-                localStorage.setItem('userBio', newBio.trim());
-            }
-        }
-
-        function loadUserSettings() {
-            const savedAvatar = localStorage.getItem('userAvatar');
-            if (savedAvatar) {
-                const avatarEl = document.getElementById('userAvatar');
-                avatarEl.innerHTML = `<img src="${savedAvatar}" alt="头像">`;
-            }
-
-            const savedName = localStorage.getItem('userName');
-            if (savedName) {
-                document.getElementById('userName').textContent = savedName;
-                document.getElementById('userNameInput').value = savedName;
-                document.getElementById('userAvatarText').textContent = savedName.charAt(0).toUpperCase();
-            }
-
-            const savedBio = localStorage.getItem('userBio');
-            if (savedBio) {
-                document.getElementById('userBio').textContent = savedBio;
-                document.getElementById('userBioInput').value = savedBio;
-            }
+        // ==================== 锁屏/解锁 ====================
+        function unlockPhone() {
+            document.getElementById('lockScreen').classList.add('hidden');
+            document.getElementById('homeScreen').classList.add('active');
         }
 
         // ==================== 应用打开/关闭 ====================
