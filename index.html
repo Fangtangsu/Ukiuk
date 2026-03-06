@@ -4,10 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <link rel="apple-touch-icon" href="https://picui.ogmua.cn/s1/2026/03/06/69aac2601f6a5.webp">
+    <link rel="apple-touch-icon" href="https://picui.ogmua.cn/s1/2026/03/06/69aa9b56e1bdb.webp">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>Ukiuk</title>
+    <title>小手机 - 模拟器</title>
     <style>
         /* 全局重置 */
         * {
@@ -260,18 +259,18 @@
         }
 
         .lock-screen .lock-time .time-display {
-            font-size: 76px;
+            font-size: 72px;
             font-weight: 600;
-            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', sans-serif;
             letter-spacing: -2px;
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
         }
 
         .lock-screen .lock-time .date-display {
             font-size: 20px;
-            font-weight: 500;
+            font-weight: 400;
             margin-top: 8px;
             opacity: 0.8;
-            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', sans-serif;
+            letter-spacing: 1px;
         }
 
         .lock-screen .lock-photo {
@@ -489,13 +488,11 @@
             display: flex;
             flex-direction: column;
             opacity: 0;
-            pointer-events: none;
             transition: opacity 0.3s ease;
         }
 
         .home-screen.active {
             opacity: 1;
-            pointer-events: auto;
         }
 
         /* 应用程序网格 */
@@ -504,328 +501,6 @@
             grid-template-columns: repeat(4, 1fr);
             gap: 16px 8px;
             padding: 20px 16px 10px;
-        }
-
-        /* 新拟态小组件区域 */
-        .widget-container {
-            padding: 16px;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .main-widget {
-            background: linear-gradient(145deg, #e6e6e6, #ffffff);
-            border-radius: 24px;
-            padding: 20px;
-            box-shadow: 
-                8px 8px 16px #d1d1d1,
-                -8px -8px 16px #ffffff;
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-        }
-
-        /* 顶部信息区 */
-        .widget-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-        }
-
-        .date-info {
-            color: #666;
-            font-size: 14px;
-            font-weight: 500;
-        }
-
-        .time-info {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .time-value {
-            color: #333;
-            font-size: 14px;
-            font-weight: 600;
-        }
-
-        .time-suffix {
-            color: #999;
-            font-size: 10px;
-        }
-
-        .r-indicator {
-            color: #999;
-            font-size: 9px;
-            background: #eee;
-            padding: 2px 4px;
-            border-radius: 4px;
-        }
-
-        /* 项目信息 */
-        .project-info {
-            margin-top: 8px;
-        }
-
-        .project-label {
-            color: #999;
-            font-size: 10px;
-            margin-bottom: 4px;
-        }
-
-        .project-name {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .project-title {
-            color: #333;
-            font-size: 16px;
-            font-weight: 600;
-        }
-
-        .fav-tag {
-            background: #333;
-            color: white;
-            font-size: 8px;
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-weight: 600;
-        }
-
-        .project-icons {
-            display: flex;
-            gap: 8px;
-            margin-left: auto;
-        }
-
-        .project-icon {
-            width: 24px;
-            height: 24px;
-            background: #e0e0e0;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 12px;
-            color: #666;
-            box-shadow: 
-                2px 2px 4px #d1d1d1,
-                -2px -2px 4px #ffffff;
-        }
-
-        /* 中间部分：时钟和音乐 */
-        .widget-middle {
-            display: flex;
-            gap: 16px;
-        }
-
-        /* 左侧时钟 */
-        .clock-widget {
-            flex: 1;
-            background: linear-gradient(145deg, #e6e6e6, #ffffff);
-            border-radius: 20px;
-            padding: 16px;
-            box-shadow: 
-                6px 6px 12px #d1d1d1,
-                -6px -6px 12px #ffffff;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .clock-face {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            background: linear-gradient(145deg, #f0f0f0, #e0e0e0);
-            box-shadow: 
-                inset 3px 3px 6px #d1d1d1,
-                inset -3px -3px 6px #ffffff,
-                2px 2px 4px #d1d1d1,
-                -2px -2px 4px #ffffff;
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .clock-center {
-            width: 6px;
-            height: 6px;
-            background: #333;
-            border-radius: 50%;
-            position: absolute;
-            z-index: 3;
-        }
-
-        .clock-hand {
-            position: absolute;
-            background: #333;
-            border-radius: 2px;
-            transform-origin: bottom center;
-        }
-
-        .hour-hand {
-            width: 3px;
-            height: 20px;
-            bottom: 50%;
-            left: calc(50% - 1.5px);
-            transform: rotate(180deg);
-        }
-
-        .minute-hand {
-            width: 2px;
-            height: 28px;
-            bottom: 50%;
-            left: calc(50% - 1px);
-            transform: rotate(30deg);
-        }
-
-        .clock-mark {
-            position: absolute;
-            width: 2px;
-            height: 6px;
-            background: #999;
-        }
-
-        .clock-mark-9 {
-            top: 50%;
-            left: 6px;
-            transform: translateY(-50%);
-        }
-
-        .clock-mark-3 {
-            top: 50%;
-            right: 6px;
-            transform: translateY(-50%);
-        }
-
-        /* 右侧音乐组件 */
-        .music-widget {
-            flex: 1;
-            background: linear-gradient(145deg, #e6e6e6, #ffffff);
-            border-radius: 20px;
-            padding: 14px;
-            box-shadow: 
-                6px 6px 12px #d1d1d1,
-                -6px -6px 12px #ffffff;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .album-cover {
-            width: 100%;
-            height: 50px;
-            background: linear-gradient(145deg, #333, #555);
-            border-radius: 12px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .album-art {
-            width: 100%;
-            height: 100%;
-            background: repeating-conic-gradient(#444 0% 25%, #333 0% 50%) 50% / 20px 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .heart-icon {
-            position: absolute;
-            top: 6px;
-            right: 6px;
-            width: 16px;
-            height: 16px;
-            border: 2px solid white;
-            border-radius: 50%;
-            box-sizing: border-box;
-        }
-
-        .track-info {
-            color: #666;
-            font-size: 10px;
-        }
-
-        .music-controls {
-            display: flex;
-            justify-content: center;
-            gap: 16px;
-        }
-
-        .music-btn {
-            width: 24px;
-            height: 24px;
-            background: #e0e0e0;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 10px;
-            color: #666;
-            box-shadow: 
-                2px 2px 4px #d1d1d1,
-                -2px -2px 4px #ffffff;
-        }
-
-        /* 底部上传按钮 */
-        .upload-widget {
-            background: linear-gradient(145deg, #e6e6e6, #ffffff);
-            border-radius: 16px;
-            padding: 14px 18px;
-            box-shadow: 
-                6px 6px 12px #d1d1d1,
-                -6px -6px 12px #ffffff;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .upload-left {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .upload-icon {
-            width: 32px;
-            height: 32px;
-            background: #333;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 14px;
-            box-shadow: 
-                3px 3px 6px #d1d1d1,
-                -3px -3px 6px #ffffff;
-        }
-
-        .upload-text {
-            color: #333;
-            font-size: 14px;
-            font-weight: 500;
-        }
-
-        .camera-btn {
-            width: 36px;
-            height: 36px;
-            background: linear-gradient(145deg, #f0f0f0, #e0e0e0);
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 16px;
-            color: #666;
-            box-shadow: 
-                3px 3px 6px #d1d1d1,
-                -3px -3px 6px #ffffff;
         }
 
         .app-item {
@@ -984,6 +659,382 @@
             box-shadow: 
                 inset 0 1px 2px rgba(0, 0, 0, 0.3),
                 0 1px 0 rgba(255, 255, 255, 0.1);
+        }
+
+        /* 第二页 */
+        .home-screen-2 {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(180deg, rgba(250, 250, 250, 0.95) 0%, rgba(240, 240, 240, 0.95) 100%);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            padding-top: 47px;
+            display: flex;
+            flex-direction: column;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 50;
+        }
+
+        .home-screen-2.active {
+            opacity: 1;
+            z-index: 60;
+        }
+
+        /* 页面指示器 */
+        .page-dots {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 8px;
+            z-index: 70;
+        }
+
+        .page-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .page-dot.active {
+            width: 20px;
+            border-radius: 4px;
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        /* 桌面小组件 - 新拟态风格 */
+        .widget-container {
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        /* 顶部信息区 */
+        .widget-header {
+            background: linear-gradient(145deg, #e8e8e8, #d0d0d0);
+            border-radius: 24px;
+            padding: 20px;
+            box-shadow: 
+                8px 8px 16px rgba(0, 0, 0, 0.1),
+                -8px -8px 16px rgba(255, 255, 255, 0.8);
+        }
+
+        .widget-top-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 16px;
+        }
+
+        .widget-date {
+            font-size: 32px;
+            font-weight: 300;
+            color: #333;
+            font-family: 'Times New Roman', serif;
+            font-style: italic;
+        }
+
+        .widget-time {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .widget-time-text {
+            font-size: 24px;
+            font-weight: 500;
+            color: #333;
+        }
+
+        .widget-time-format {
+            font-size: 12px;
+            color: #666;
+            padding: 4px 8px;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .widget-project {
+            background: linear-gradient(145deg, #f0f0f0, #e0e0e0);
+            border-radius: 16px;
+            padding: 12px 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 
+                inset 2px 2px 4px rgba(0, 0, 0, 0.05),
+                inset -2px -2px 4px rgba(255, 255, 255, 0.5);
+        }
+
+        .widget-project-label {
+            font-size: 11px;
+            color: #888;
+            margin-bottom: 4px;
+        }
+
+        .widget-project-info {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .widget-project-name {
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .widget-project-fav {
+            font-size: 10px;
+            padding: 2px 6px;
+            background: #333;
+            color: white;
+            border-radius: 4px;
+        }
+
+        .widget-project-icons {
+            display: flex;
+            gap: 12px;
+            font-size: 16px;
+            color: #666;
+        }
+
+        /* 中间组件区域 */
+        .widget-middle {
+            display: flex;
+            gap: 16px;
+            justify-content: flex-start;
+        }
+
+        .clock-face {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: linear-gradient(145deg, #f0f0f0, #e0e0e0);
+            position: relative;
+            box-shadow: 
+                inset 3px 3px 6px rgba(0, 0, 0, 0.1),
+                inset -3px -3px 6px rgba(255, 255, 255, 0.8);
+        }
+
+        .clock-mark {
+            position: absolute;
+            width: 2px;
+            height: 8px;
+            background: #999;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .clock-mark.mark-12 { top: 4px; }
+        .clock-mark.mark-3 { top: 50%; right: 4px; transform: translateY(-50%) rotate(90deg); }
+        .clock-mark.mark-6 { bottom: 4px; }
+        .clock-mark.mark-9 { top: 50%; left: 4px; transform: translateY(-50%) rotate(90deg); }
+
+        .clock-hand {
+            position: absolute;
+            background: #333;
+            left: 50%;
+            bottom: 50%;
+            transform-origin: bottom center;
+            border-radius: 2px;
+        }
+
+        .clock-hand.hour {
+            width: 3px;
+            height: 25px;
+            transform: translateX(-50%) rotate(180deg);
+        }
+
+        .clock-hand.minute {
+            width: 2px;
+            height: 35px;
+            transform: translateX(-50%) rotate(30deg);
+        }
+
+        .clock-center {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background: #333;
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        /* 右侧音乐组件 */
+        .widget-music {
+            background: linear-gradient(145deg, #e8e8e8, #d0d0d0);
+            border-radius: 24px;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            box-shadow: 
+                8px 8px 16px rgba(0, 0, 0, 0.1),
+                -8px -8px 16px rgba(255, 255, 255, 0.8);
+            width: 180px;
+            flex-shrink: 0;
+        }
+
+        .music-album {
+            width: 100%;
+            aspect-ratio: 1;
+            border-radius: 16px;
+            background: linear-gradient(145deg, #333, #555);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 
+                inset 2px 2px 4px rgba(0, 0, 0, 0.3),
+                inset -2px -2px 4px rgba(255, 255, 255, 0.1);
+        }
+
+        .music-album-art {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, #2a2a2a 0%, #4a4a4a 50%, #2a2a2a 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .music-album-art::before {
+            content: '';
+            width: 60%;
+            height: 60%;
+            background: radial-gradient(circle, #3a3a3a 0%, #2a2a2a 100%);
+            border-radius: 50%;
+        }
+
+        .music-heart {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            font-size: 16px;
+            color: white;
+            opacity: 0.7;
+        }
+
+        .music-track {
+            font-size: 11px;
+            color: #666;
+        }
+
+        .music-track-input {
+            width: 100%;
+            padding: 8px 12px;
+            font-size: 11px;
+            color: #666;
+            background: rgba(255, 255, 255, 0.5);
+            border: none;
+            border-radius: 8px;
+            outline: none;
+            font-family: inherit;
+        }
+
+        .music-track-input::placeholder {
+            color: #999;
+        }
+
+        .music-album {
+            cursor: pointer;
+        }
+
+        /* 用户头像组件 */
+        .user-profile-section {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-left: auto;
+        }
+
+        .user-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(145deg, #667eea, #764ba2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            color: white;
+            font-weight: 600;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            cursor: pointer;
+        }
+
+        .user-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+
+        .user-name {
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+            cursor: pointer;
+        }
+
+        .user-bio {
+            font-size: 11px;
+            color: #888;
+            cursor: pointer;
+        }
+
+        .music-controls {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            font-size: 18px;
+            color: #333;
+        }
+
+        /* 底部上传按钮 */
+        .widget-upload {
+            background: linear-gradient(145deg, #e8e8e8, #d0d0d0);
+            border-radius: 16px;
+            padding: 12px 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 
+                6px 6px 12px rgba(0, 0, 0, 0.1),
+                -6px -6px 12px rgba(255, 255, 255, 0.8);
+        }
+
+        .widget-upload-left {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #333;
+            font-size: 14px;
+        }
+
+        .widget-upload-camera {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            background: linear-gradient(145deg, #f0f0f0, #e0e0e0);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            box-shadow: 
+                3px 3px 6px rgba(0, 0, 0, 0.1),
+                -3px -3px 6px rgba(255, 255, 255, 0.8);
         }
 
         /* 应用程序页面 */
@@ -1566,7 +1617,7 @@
         }
 
         /* 响应式 - 手机端 */
-        @media (max-width: 768px) {
+        @media (max-width: 480px) {
             body {
                 padding: 0;
             }
@@ -1586,125 +1637,6 @@
             .screen {
                 border-radius: 0;
             }
-
-            .status-bar {
-                display: none;
-            }
-
-            .app-screen .app-header {
-                padding-top: 30px;
-            }
-        }
-
-        /* 主页翻页 */
-        .home-pages {
-            width: 100%;
-            height: 100%;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .home-page {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            transition: transform 0.3s ease;
-            overflow-y: auto;
-        }
-
-        .home-page.active {
-            transform: translateX(0);
-        }
-
-        .home-page.hidden-right {
-            transform: translateX(100%);
-        }
-
-        .home-page.hidden-left {
-            transform: translateX(-100%);
-        }
-
-        /* 页面指示器 */
-        .page-dots {
-            position: absolute;
-            bottom: 80px;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            gap: 8px;
-            z-index: 50;
-        }
-
-        .page-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: rgba(0, 0, 0, 0.2);
-            transition: all 0.3s ease;
-        }
-
-        .page-dot.active {
-            background: #333;
-            width: 24px;
-            border-radius: 4px;
-        }
-
-        /* 头像组件 */
-        .avatar-widget {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 8px;
-            cursor: pointer;
-        }
-
-        .avatar-circle {
-            width: 70px;
-            height: 70px;
-            border-radius: 50%;
-            background: linear-gradient(145deg, #e6e6e6, #ffffff);
-            box-shadow: 
-                6px 6px 12px #d1d1d1,
-                -6px -6px 12px #ffffff;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-            position: relative;
-        }
-
-        .avatar-circle img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .avatar-circle .default-avatar {
-            font-size: 28px;
-        }
-
-        .avatar-plus {
-            position: absolute;
-            bottom: 0;
-            right: 0;
-            width: 20px;
-            height: 20px;
-            background: #333;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 14px;
-            border: 2px solid white;
-        }
-
-        .avatar-name {
-            font-size: 12px;
-            color: #666;
-            font-weight: 500;
         }
     </style>
 </head>
@@ -1762,7 +1694,7 @@
                 </div>
                 <div class="lock-time">
                     <div class="time-display" id="lockTime">9:41</div>
-                    <div class="date-display" id="lockDate">周三 3月6日</div>
+                    <div class="date-display" id="lockDate">周三, 3月6日</div>
                 </div>
                 <div class="lock-photo" id="lockPhoto" onclick="showWallpaperModal()" style="background-image: url('https://picui.ogmua.cn/s1/2026/03/06/69aa99bde6a9b.webp'); background-size: cover; background-position: center;">
                     <span class="default-icon" style="display: none;">📱</span>
@@ -1775,115 +1707,132 @@
 
             <!-- 主屏幕 -->
             <div class="home-screen" id="homeScreen">
-                <div class="home-pages" id="homePages">
-                    <!-- 第一页 -->
-                    <div class="home-page active" id="homePage1">
-                        <!-- 新拟态小组件 -->
-                        <div class="widget-container">
-                            <div class="main-widget">
-                                <!-- 头像组件 -->
-                                <div class="avatar-widget" onclick="document.getElementById('avatarFileInput2').click()">
-                                    <div class="avatar-circle" id="mainAvatarCircle">
-                                        <span class="default-avatar">👤</span>
-                                        <div class="avatar-plus">+</div>
-                                    </div>
-                                    <span class="avatar-name">点击添加头像</span>
+                <!-- 桌面小组件 -->
+                <div class="widget-container">
+                    <!-- 顶部信息区 -->
+                    <div class="widget-header">
+                        <div class="widget-top-info">
+                            <div class="widget-date" id="widgetDate">3/5</div>
+                            <div class="widget-time">
+                                <span class="widget-time-text" id="widgetTime">9:32 PM</span>
+                                <span class="widget-time-format" onclick="toggleTimeFormat()">R 24</span>
+                            </div>
+                        </div>
+                        <div class="widget-project">
+                            <div>
+                                <div class="widget-project-label">Your last project</div>
+                                <div class="widget-project-info">
+                                    <span class="widget-project-name">T.029</span>
+                                    <span class="widget-project-fav">FAV</span>
                                 </div>
-                                <input type="file" id="avatarFileInput2" accept="image/*" style="display:none;" onchange="handleMainAvatarSelect(event)">
-                                
-                                <!-- 顶部信息区 -->
-                                <div class="widget-header">
-                                    <div class="date-info">3/6</div>
-                                    <div class="time-info">
-                                        <span class="time-value">6 PM</span>
-                                        <span class="r-indicator">R 24</span>
-                                    </div>
-                                </div>
-                                <div class="project-info">
-                                    <div class="project-label">Your last project</div>
-                                    <div class="project-name">
-                                        <span class="project-title">T.029</span>
-                                        <span class="fav-tag">FAV</span>
-                                        <div class="project-icons">
-                                            <span class="project-icon">🎧</span>
-                                            <span class="project-icon">☰</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- 中间：时钟和音乐 -->
-                                <div class="widget-middle">
-                                    <div class="clock-widget">
-                                        <div class="clock-face">
-                                            <div class="clock-mark clock-mark-9"></div>
-                                            <div class="clock-mark clock-mark-3"></div>
-                                            <div class="clock-center"></div>
-                                            <div class="clock-hand hour-hand"></div>
-                                            <div class="clock-hand minute-hand"></div>
-                                        </div>
-                                    </div>
-                                    <div class="music-widget">
-                                        <div class="album-cover">
-                                            <div class="album-art"></div>
-                                            <div class="heart-icon"></div>
-                                        </div>
-                                        <div class="track-info">Track 099 / New...</div>
-                                        <div class="music-controls">
-                                            <span class="music-btn">⏮</span>
-                                            <span class="music-btn">⏭</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- 底部上传按钮 -->
-                                <div class="upload-widget">
-                                    <div class="upload-left">
-                                        <div class="upload-icon">⬆</div>
-                                        <span class="upload-text">upload</span>
-                                    </div>
-                                    <div class="camera-btn">📷</div>
-                                </div>
+                            </div>
+                            <div class="widget-project-icons">
+                                <span>🎧</span>
+                                <span>☰</span>
                             </div>
                         </div>
                     </div>
-                    
-                    <!-- 第二页 -->
-                    <div class="home-page hidden-right" id="homePage2">
-                        <div class="apps-grid">
-                            <div class="app-item" data-app="wechat">
-                                <div class="app-icon wechat"><img src="https://picui.ogmua.cn/s1/2026/03/06/69aaa030471c0.webp" alt="微信"></div>
-                                <span class="app-name">微信</span>
+
+                    <!-- 中间组件区域 -->
+                    <div class="widget-middle">
+                        <!-- 左侧音乐播放器 -->
+                        <div class="widget-music">
+                            <div class="music-album" onclick="document.getElementById('albumCoverInput').click()">
+                                <img id="albumCoverImg" class="music-album-img" src="" style="display:none; width:100%;height:100%;object-fit:cover;border-radius:16px;">
+                                <div class="music-album-art" id="albumArtPlaceholder"></div>
+                                <span class="music-heart">♡</span>
                             </div>
-                            <div class="app-item" data-app="contacts">
-                                <div class="app-icon contacts"><img src="https://picui.ogmua.cn/s1/2026/03/06/69aaa03005831.webp" alt="通讯录"></div>
-                                <span class="app-name">通讯录</span>
-                            </div>
-                            <div class="app-item" data-app="settings">
-                                <div class="app-icon settings"><img src="https://picui.ogmua.cn/s1/2026/03/06/69aaa03077e2b.webp" alt="设置"></div>
-                                <span class="app-name">设置</span>
+                            <input type="file" id="albumCoverInput" accept="image/*" style="display:none;" onchange="handleAlbumCoverSelect(event)">
+                            <input type="text" class="music-track-input" id="musicTrackInput" placeholder="输入曲目名称..." onchange="updateMusicTrack()">
+                            <div class="music-controls">
+                                <span>⏮</span>
+                                <span>⏭</span>
                             </div>
                         </div>
-                        <div class="dock-container">
-                            <div class="dock">
-                                <div class="dock-item">
-                                    <div class="dock-icon"><img src="https://picui.ogmua.cn/s1/2026/03/06/69aaa0306093a.webp" alt="相机"></div>
-                                    <span class="dock-name">相机</span>
-                                </div>
-                                <div class="dock-item">
-                                    <div class="dock-icon"><img src="https://picui.ogmua.cn/s1/2026/03/06/69aaa0304bab2.webp" alt="照片"></div>
-                                    <span class="dock-name">照片</span>
-                                </div>
-                                <div class="dock-item">
-                                    <div class="dock-icon">☁️</div>
-                                    <span class="dock-name">云盘</span>
-                                </div>
+                        
+                        <!-- 用户头像组件 -->
+                        <div class="user-profile-section">
+                            <div class="user-avatar" id="userAvatar" onclick="document.getElementById('userAvatarInput').click()">
+                                <span id="userAvatarText">FT</span>
                             </div>
+                            <input type="file" id="userAvatarInput" accept="image/*" style="display:none;" onchange="handleUserAvatarSelect(event)">
+                            <div>
+                                <div class="user-name" id="userName" onclick="editUserName()">FT</div>
+                                <div class="user-bio" id="userBio" onclick="editUserBio()">loveyou</div>
+                            </div>
+                            <input type="text" id="userNameInput" style="display:none;" onchange="updateUserName()">
+                            <input type="text" id="userBioInput" style="display:none;" onchange="updateUserBio()">
+                        </div>
+                    </div>
+
+                    <!-- 底部上传按钮 -->
+                    <div class="widget-upload">
+                        <div class="widget-upload-left">
+                            <span>⬆</span>
+                            <span>upload</span>
+                        </div>
+                        <div class="widget-upload-camera">📷</div>
+                    </div>
+                </div>
+
+                <div class="dock-container">
+                    <div class="dock">
+                        <div class="dock-item">
+                            <div class="dock-icon"><img src="https://picui.ogmua.cn/s1/2026/03/06/69aaa0306093a.webp" alt="相机"></div>
+                            <span class="dock-name">相机</span>
+                        </div>
+                        <div class="dock-item">
+                            <div class="dock-icon"><img src="https://picui.ogmua.cn/s1/2026/03/06/69aaa0304bab2.webp" alt="照片"></div>
+                            <span class="dock-name">照片</span>
+                        </div>
+                        <div class="dock-item">
+                            <div class="dock-icon">☁️</div>
+                            <span class="dock-name">云盘</span>
                         </div>
                     </div>
                 </div>
-                
+
                 <!-- 页面指示器 -->
                 <div class="page-dots">
-                    <div class="page-dot active" onclick="goToPage(1)"></div>
-                    <div class="page-dot" onclick="goToPage(2)"></div>
+                    <span class="page-dot active" data-page="1"></span>
+                    <span class="page-dot" data-page="2"></span>
+                </div>
+
+                <div class="home-bar"></div>
+            </div>
+
+            <!-- 第二页 -->
+            <div class="home-screen-2" id="homeScreen2">
+                <div class="apps-grid">
+                    <div class="app-item" data-app="wechat">
+                        <div class="app-icon wechat"><img src="https://picui.ogmua.cn/s1/2026/03/06/69aaa030471c0.webp" alt="微信"></div>
+                        <span class="app-name">微信</span>
+                    </div>
+                    <div class="app-item" data-app="contacts">
+                        <div class="app-icon contacts"><img src="https://picui.ogmua.cn/s1/2026/03/06/69aaa03005831.webp" alt="通讯录"></div>
+                        <span class="app-name">通讯录</span>
+                    </div>
+                    <div class="app-item" data-app="settings">
+                        <div class="app-icon settings"><img src="https://picui.ogmua.cn/s1/2026/03/06/69aaa03077e2b.webp" alt="设置"></div>
+                        <span class="app-name">设置</span>
+                    </div>
+                </div>
+
+                <div class="dock-container">
+                    <div class="dock">
+                        <div class="dock-item">
+                            <div class="dock-icon"><img src="https://picui.ogmua.cn/s1/2026/03/06/69aaa0306093a.webp" alt="相机"></div>
+                            <span class="dock-name">相机</span>
+                        </div>
+                        <div class="dock-item">
+                            <div class="dock-icon"><img src="https://picui.ogmua.cn/s1/2026/03/06/69aaa0304bab2.webp" alt="照片"></div>
+                            <span class="dock-name">照片</span>
+                        </div>
+                        <div class="dock-item">
+                            <div class="dock-icon">☁️</div>
+                            <span class="dock-name">云盘</span>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="home-bar"></div>
@@ -2122,6 +2071,8 @@
             renderContacts();
             renderChatList();
             loadSettings();
+            loadWidgetMusicSettings();
+            loadUserSettings();
 
             // 滑动解锁
             const slideArea = document.getElementById('slideToUnlock');
@@ -2168,63 +2119,11 @@
                     openApp(appName);
                 });
             });
-
-            // 主页滑动切换
-            const homePages = document.getElementById('homePages');
-            let pageStartX = 0;
-            let isPageSwiping = false;
-            let currentPage = 1;
-
-            homePages.addEventListener('touchstart', (e) => {
-                pageStartX = e.touches[0].clientX;
-                isPageSwiping = true;
-            });
-
-            homePages.addEventListener('touchmove', (e) => {
-                if (!isPageSwiping) return;
-                const currentX = e.touches[0].clientX;
-                const diff = currentX - pageStartX;
-                
-                if (Math.abs(diff) > 30) {
-                    if (diff > 0 && currentPage > 1) {
-                        goToPage(currentPage - 1);
-                        isPageSwiping = false;
-                    } else if (diff < 0 && currentPage < 2) {
-                        goToPage(currentPage + 1);
-                        isPageSwiping = false;
-                    }
-                }
-            });
-
-            homePages.addEventListener('touchend', () => {
-                isPageSwiping = false;
-            });
-
-            // 鼠标滑动支持
-            homePages.addEventListener('mousedown', (e) => {
-                pageStartX = e.clientX;
-                isPageSwiping = true;
-            });
-
-            document.addEventListener('mouseup', (e) => {
-                if (!isPageSwiping) return;
-                const diff = e.clientX - pageStartX;
-                
-                if (Math.abs(diff) > 50) {
-                    if (diff > 0 && currentPage > 1) {
-                        goToPage(currentPage - 1);
-                    } else if (diff < 0 && currentPage < 2) {
-                        goToPage(currentPage + 1);
-                    }
-                }
-                isPageSwiping = false;
-            });
-
-            // 加载保存的头像
-            loadMainAvatar();
         });
 
         // ==================== 时间更新 ====================
+        let is24HourFormat = false;
+        
         function updateTime() {
             const now = new Date();
             const hours = now.getHours();
@@ -2234,70 +2133,222 @@
             document.getElementById('currentTime').textContent = timeStr;
             document.getElementById('lockTime').textContent = timeStr;
 
-            const weekDays = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'];
+            // 更新小组件时间
+            const widgetHours = now.getHours();
+            const widgetMinutes = now.getMinutes().toString().padStart(2, '0');
+            let displayTime;
+            if (is24HourFormat) {
+                displayTime = `${widgetHours}:${widgetMinutes}`;
+            } else {
+                const period = widgetHours >= 12 ? 'PM' : 'AM';
+                const hour12 = widgetHours % 12 || 12;
+                displayTime = `${hour12}:${widgetMinutes} ${period}`;
+            }
+            document.getElementById('widgetTime').textContent = displayTime;
+
+            // 更新小组件日期
             const month = now.getMonth() + 1;
             const day = now.getDate();
+            document.getElementById('widgetDate').textContent = `${month}/${day}`;
+
+            const weekDays = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'];
             const dateStr = `${weekDays[now.getDay()]} ${month}月${day}日`;
             document.getElementById('lockDate').textContent = dateStr;
         }
 
-        // ==================== 主页切换 ====================
-        let currentHomePage = 1;
-
-        function goToPage(pageNum) {
-            const page1 = document.getElementById('homePage1');
-            const page2 = document.getElementById('homePage2');
-            const dots = document.querySelectorAll('.page-dot');
-
-            if (pageNum === 1) {
-                page1.classList.remove('hidden-right');
-                page1.classList.add('active');
-                page2.classList.add('hidden-right');
-                page2.classList.remove('active');
-                dots[0].classList.add('active');
-                dots[1].classList.remove('active');
-            } else {
-                page1.classList.add('hidden-right');
-                page1.classList.remove('active');
-                page2.classList.remove('hidden-right');
-                page2.classList.add('active');
-                dots[0].classList.remove('active');
-                dots[1].classList.add('active');
-            }
-            currentHomePage = pageNum;
+        function toggleTimeFormat() {
+            is24HourFormat = !is24HourFormat;
+            const formatBtn = document.querySelector('.widget-time-format');
+            formatBtn.textContent = is24HourFormat ? 'R 12' : 'R 24';
+            updateTime();
         }
 
-        // 主页头像
-        function loadMainAvatar() {
-            const savedAvatar = localStorage.getItem('mainAvatar');
-            if (savedAvatar) {
-                const avatarCircle = document.getElementById('mainAvatarCircle');
-                avatarCircle.innerHTML = `<img src="${savedAvatar}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">`;
-                const nameLabel = avatarCircle.nextElementSibling;
-                if (nameLabel && nameLabel.classList.contains('avatar-name')) {
-                    nameLabel.textContent = '点击更换头像';
-                }
-            }
-        }
-
-        function handleMainAvatarSelect(event) {
+        // ==================== 音乐播放器功能 ====================
+        function handleAlbumCoverSelect(event) {
             const file = event.target.files[0];
             if (!file) return;
 
             const reader = new FileReader();
             reader.onload = function(e) {
-                localStorage.setItem('mainAvatar', e.target.result);
-                loadMainAvatar();
-                showToast('头像已更换');
+                const img = document.getElementById('albumCoverImg');
+                img.src = e.target.result;
+                img.style.display = 'block';
+                document.getElementById('albumArtPlaceholder').style.display = 'none';
+                // 保存到localStorage
+                localStorage.setItem('widgetAlbumCover', e.target.result);
             };
             reader.readAsDataURL(file);
             event.target.value = '';
         }
 
+        function updateMusicTrack() {
+            const trackName = document.getElementById('musicTrackInput').value;
+            localStorage.setItem('widgetMusicTrack', trackName);
+        }
+
+        // 加载保存的音乐播放器设置
+        function loadWidgetMusicSettings() {
+            const savedCover = localStorage.getItem('widgetAlbumCover');
+            if (savedCover) {
+                const img = document.getElementById('albumCoverImg');
+                img.src = savedCover;
+                img.style.display = 'block';
+                document.getElementById('albumArtPlaceholder').style.display = 'none';
+            }
+
+            const savedTrack = localStorage.getItem('widgetMusicTrack');
+            if (savedTrack) {
+                document.getElementById('musicTrackInput').value = savedTrack;
+            }
+        }
+
         // ==================== 锁屏/解锁 ====================
+        let currentPage = 1;
+
         function unlockPhone() {
             document.getElementById('lockScreen').classList.add('hidden');
             document.getElementById('homeScreen').classList.add('active');
+        }
+
+        function switchPage(pageNum) {
+            currentPage = pageNum;
+            const homeScreen1 = document.getElementById('homeScreen');
+            const homeScreen2 = document.getElementById('homeScreen2');
+            const dots = document.querySelectorAll('.page-dot');
+
+            if (pageNum === 1) {
+                homeScreen1.classList.add('active');
+                homeScreen2.classList.remove('active');
+            } else {
+                homeScreen1.classList.remove('active');
+                homeScreen2.classList.add('active');
+            }
+
+            dots.forEach((dot, index) => {
+                if (index + 1 === pageNum) {
+                    dot.classList.add('active');
+                } else {
+                    dot.classList.remove('active');
+                }
+            });
+        }
+
+        // ==================== 电脑端页面滑动支持 ====================
+        let homeStartX = 0;
+        let homeIsDragging = false;
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            const phoneContainer = document.querySelector('.phone-container');
+            
+            if (phoneContainer) {
+                // 鼠标按下
+                phoneContainer.addEventListener('mousedown', (e) => {
+                    // 只在主屏幕区域响应滑动
+                    if (!document.getElementById('homeScreen').classList.contains('active') &&
+                        !document.getElementById('homeScreen2').classList.contains('active')) {
+                        return;
+                    }
+                    homeStartX = e.clientX;
+                    homeIsDragging = true;
+                });
+                
+                // 鼠标松开
+                phoneContainer.addEventListener('mouseup', (e) => {
+                    if (!homeIsDragging) return;
+                    
+                    const diff = e.clientX - homeStartX;
+                    
+                    // 第一页右滑切换到第二页
+                    if (diff > 80 && currentPage === 1) {
+                        switchPage(2);
+                    }
+                    // 第二页左滑切换到第一页
+                    else if (diff < -80 && currentPage === 2) {
+                        switchPage(1);
+                    }
+                    
+                    homeIsDragging = false;
+                });
+                
+                // 鼠标离开容器
+                phoneContainer.addEventListener('mouseleave', () => {
+                    homeIsDragging = false;
+                });
+            }
+        });
+
+        // ==================== 用户头像功能 ====================
+        function handleUserAvatarSelect(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const avatarEl = document.getElementById('userAvatar');
+                avatarEl.innerHTML = `<img src="${e.target.result}" alt="头像">`;
+                localStorage.setItem('userAvatar', e.target.result);
+            };
+            reader.readAsDataURL(file);
+            event.target.value = '';
+        }
+
+        function updateUserName() {
+            const name = document.getElementById('userNameInput').value;
+            if (name) {
+                document.getElementById('userName').textContent = name;
+                document.getElementById('userAvatarText').textContent = name.charAt(0).toUpperCase();
+                localStorage.setItem('userName', name);
+            }
+        }
+
+        function updateUserBio() {
+            const bio = document.getElementById('userBioInput').value;
+            if (bio) {
+                document.getElementById('userBio').textContent = bio;
+                localStorage.setItem('userBio', bio);
+            }
+        }
+        
+        // 改进的用户名编辑功能 - 使用prompt
+        function editUserName() {
+            const currentName = document.getElementById('userName').textContent;
+            const newName = prompt('请输入您的名字:', currentName);
+            if (newName && newName.trim()) {
+                document.getElementById('userName').textContent = newName.trim();
+                document.getElementById('userAvatarText').textContent = newName.trim().charAt(0).toUpperCase();
+                localStorage.setItem('userName', newName.trim());
+            }
+        }
+        
+        // 改进的用户简介编辑功能 - 使用prompt
+        function editUserBio() {
+            const currentBio = document.getElementById('userBio').textContent;
+            const newBio = prompt('请输入您的个人简介:', currentBio);
+            if (newBio && newBio.trim()) {
+                document.getElementById('userBio').textContent = newBio.trim();
+                localStorage.setItem('userBio', newBio.trim());
+            }
+        }
+
+        function loadUserSettings() {
+            const savedAvatar = localStorage.getItem('userAvatar');
+            if (savedAvatar) {
+                const avatarEl = document.getElementById('userAvatar');
+                avatarEl.innerHTML = `<img src="${savedAvatar}" alt="头像">`;
+            }
+
+            const savedName = localStorage.getItem('userName');
+            if (savedName) {
+                document.getElementById('userName').textContent = savedName;
+                document.getElementById('userNameInput').value = savedName;
+                document.getElementById('userAvatarText').textContent = savedName.charAt(0).toUpperCase();
+            }
+
+            const savedBio = localStorage.getItem('userBio');
+            if (savedBio) {
+                document.getElementById('userBio').textContent = savedBio;
+                document.getElementById('userBioInput').value = savedBio;
+            }
         }
 
         // ==================== 应用打开/关闭 ====================
