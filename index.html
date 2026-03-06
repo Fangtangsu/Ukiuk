@@ -1566,7 +1566,7 @@
         }
 
         /* 响应式 - 手机端 */
-        @media (max-width: 480px) {
+        @media (max-width: 768px) {
             body {
                 padding: 0;
             }
@@ -1586,6 +1586,125 @@
             .screen {
                 border-radius: 0;
             }
+
+            .status-bar {
+                display: none;
+            }
+
+            .app-screen .app-header {
+                padding-top: 30px;
+            }
+        }
+
+        /* 主页翻页 */
+        .home-pages {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .home-page {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.3s ease;
+            overflow-y: auto;
+        }
+
+        .home-page.active {
+            transform: translateX(0);
+        }
+
+        .home-page.hidden-right {
+            transform: translateX(100%);
+        }
+
+        .home-page.hidden-left {
+            transform: translateX(-100%);
+        }
+
+        /* 页面指示器 */
+        .page-dots {
+            position: absolute;
+            bottom: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 8px;
+            z-index: 50;
+        }
+
+        .page-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .page-dot.active {
+            background: #333;
+            width: 24px;
+            border-radius: 4px;
+        }
+
+        /* 头像组件 */
+        .avatar-widget {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+
+        .avatar-circle {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background: linear-gradient(145deg, #e6e6e6, #ffffff);
+            box-shadow: 
+                6px 6px 12px #d1d1d1,
+                -6px -6px 12px #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .avatar-circle img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .avatar-circle .default-avatar {
+            font-size: 28px;
+        }
+
+        .avatar-plus {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 20px;
+            height: 20px;
+            background: #333;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 14px;
+            border: 2px solid white;
+        }
+
+        .avatar-name {
+            font-size: 12px;
+            color: #666;
+            font-weight: 500;
         }
     </style>
 </head>
@@ -1656,92 +1775,115 @@
 
             <!-- 主屏幕 -->
             <div class="home-screen" id="homeScreen">
-                <!-- 新拟态小组件 -->
-                <div class="widget-container">
-                    <div class="main-widget">
-                        <!-- 顶部信息区 -->
-                        <div class="widget-header">
-                            <div class="date-info">3/6</div>
-                            <div class="time-info">
-                                <span class="time-value">6 PM</span>
-                                <span class="r-indicator">R 24</span>
-                            </div>
-                        </div>
-                        <div class="project-info">
-                            <div class="project-label">Your last project</div>
-                            <div class="project-name">
-                                <span class="project-title">T.029</span>
-                                <span class="fav-tag">FAV</span>
-                                <div class="project-icons">
-                                    <span class="project-icon">🎧</span>
-                                    <span class="project-icon">☰</span>
+                <div class="home-pages" id="homePages">
+                    <!-- 第一页 -->
+                    <div class="home-page active" id="homePage1">
+                        <!-- 新拟态小组件 -->
+                        <div class="widget-container">
+                            <div class="main-widget">
+                                <!-- 头像组件 -->
+                                <div class="avatar-widget" onclick="document.getElementById('avatarFileInput2').click()">
+                                    <div class="avatar-circle" id="mainAvatarCircle">
+                                        <span class="default-avatar">👤</span>
+                                        <div class="avatar-plus">+</div>
+                                    </div>
+                                    <span class="avatar-name">点击添加头像</span>
+                                </div>
+                                <input type="file" id="avatarFileInput2" accept="image/*" style="display:none;" onchange="handleMainAvatarSelect(event)">
+                                
+                                <!-- 顶部信息区 -->
+                                <div class="widget-header">
+                                    <div class="date-info">3/6</div>
+                                    <div class="time-info">
+                                        <span class="time-value">6 PM</span>
+                                        <span class="r-indicator">R 24</span>
+                                    </div>
+                                </div>
+                                <div class="project-info">
+                                    <div class="project-label">Your last project</div>
+                                    <div class="project-name">
+                                        <span class="project-title">T.029</span>
+                                        <span class="fav-tag">FAV</span>
+                                        <div class="project-icons">
+                                            <span class="project-icon">🎧</span>
+                                            <span class="project-icon">☰</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- 中间：时钟和音乐 -->
+                                <div class="widget-middle">
+                                    <div class="clock-widget">
+                                        <div class="clock-face">
+                                            <div class="clock-mark clock-mark-9"></div>
+                                            <div class="clock-mark clock-mark-3"></div>
+                                            <div class="clock-center"></div>
+                                            <div class="clock-hand hour-hand"></div>
+                                            <div class="clock-hand minute-hand"></div>
+                                        </div>
+                                    </div>
+                                    <div class="music-widget">
+                                        <div class="album-cover">
+                                            <div class="album-art"></div>
+                                            <div class="heart-icon"></div>
+                                        </div>
+                                        <div class="track-info">Track 099 / New...</div>
+                                        <div class="music-controls">
+                                            <span class="music-btn">⏮</span>
+                                            <span class="music-btn">⏭</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- 底部上传按钮 -->
+                                <div class="upload-widget">
+                                    <div class="upload-left">
+                                        <div class="upload-icon">⬆</div>
+                                        <span class="upload-text">upload</span>
+                                    </div>
+                                    <div class="camera-btn">📷</div>
                                 </div>
                             </div>
                         </div>
-                        <!-- 中间：时钟和音乐 -->
-                        <div class="widget-middle">
-                            <div class="clock-widget">
-                                <div class="clock-face">
-                                    <div class="clock-mark clock-mark-9"></div>
-                                    <div class="clock-mark clock-mark-3"></div>
-                                    <div class="clock-center"></div>
-                                    <div class="clock-hand hour-hand"></div>
-                                    <div class="clock-hand minute-hand"></div>
-                                </div>
+                    </div>
+                    
+                    <!-- 第二页 -->
+                    <div class="home-page hidden-right" id="homePage2">
+                        <div class="apps-grid">
+                            <div class="app-item" data-app="wechat">
+                                <div class="app-icon wechat"><img src="https://picui.ogmua.cn/s1/2026/03/06/69aaa030471c0.webp" alt="微信"></div>
+                                <span class="app-name">微信</span>
                             </div>
-                            <div class="music-widget">
-                                <div class="album-cover">
-                                    <div class="album-art"></div>
-                                    <div class="heart-icon"></div>
-                                </div>
-                                <div class="track-info">Track 099 / New...</div>
-                                <div class="music-controls">
-                                    <span class="music-btn">⏮</span>
-                                    <span class="music-btn">⏭</span>
-                                </div>
+                            <div class="app-item" data-app="contacts">
+                                <div class="app-icon contacts"><img src="https://picui.ogmua.cn/s1/2026/03/06/69aaa03005831.webp" alt="通讯录"></div>
+                                <span class="app-name">通讯录</span>
+                            </div>
+                            <div class="app-item" data-app="settings">
+                                <div class="app-icon settings"><img src="https://picui.ogmua.cn/s1/2026/03/06/69aaa03077e2b.webp" alt="设置"></div>
+                                <span class="app-name">设置</span>
                             </div>
                         </div>
-                        <!-- 底部上传按钮 -->
-                        <div class="upload-widget">
-                            <div class="upload-left">
-                                <div class="upload-icon">⬆</div>
-                                <span class="upload-text">upload</span>
+                        <div class="dock-container">
+                            <div class="dock">
+                                <div class="dock-item">
+                                    <div class="dock-icon"><img src="https://picui.ogmua.cn/s1/2026/03/06/69aaa0306093a.webp" alt="相机"></div>
+                                    <span class="dock-name">相机</span>
+                                </div>
+                                <div class="dock-item">
+                                    <div class="dock-icon"><img src="https://picui.ogmua.cn/s1/2026/03/06/69aaa0304bab2.webp" alt="照片"></div>
+                                    <span class="dock-name">照片</span>
+                                </div>
+                                <div class="dock-item">
+                                    <div class="dock-icon">☁️</div>
+                                    <span class="dock-name">云盘</span>
+                                </div>
                             </div>
-                            <div class="camera-btn">📷</div>
                         </div>
                     </div>
                 </div>
-
-                <div class="apps-grid">
-                    <div class="app-item" data-app="wechat">
-                        <div class="app-icon wechat"><img src="https://picui.ogmua.cn/s1/2026/03/06/69aaa030471c0.webp" alt="微信"></div>
-                        <span class="app-name">微信</span>
-                    </div>
-                    <div class="app-item" data-app="contacts">
-                        <div class="app-icon contacts"><img src="https://picui.ogmua.cn/s1/2026/03/06/69aaa03005831.webp" alt="通讯录"></div>
-                        <span class="app-name">通讯录</span>
-                    </div>
-                    <div class="app-item" data-app="settings">
-                        <div class="app-icon settings"><img src="https://picui.ogmua.cn/s1/2026/03/06/69aaa03077e2b.webp" alt="设置"></div>
-                        <span class="app-name">设置</span>
-                    </div>
-                </div>
-
-                <div class="dock-container">
-                    <div class="dock">
-                        <div class="dock-item">
-                            <div class="dock-icon"><img src="https://picui.ogmua.cn/s1/2026/03/06/69aaa0306093a.webp" alt="相机"></div>
-                            <span class="dock-name">相机</span>
-                        </div>
-                        <div class="dock-item">
-                            <div class="dock-icon"><img src="https://picui.ogmua.cn/s1/2026/03/06/69aaa0304bab2.webp" alt="照片"></div>
-                            <span class="dock-name">照片</span>
-                        </div>
-                        <div class="dock-item">
-                            <div class="dock-icon">☁️</div>
-                            <span class="dock-name">云盘</span>
-                        </div>
-                    </div>
+                
+                <!-- 页面指示器 -->
+                <div class="page-dots">
+                    <div class="page-dot active" onclick="goToPage(1)"></div>
+                    <div class="page-dot" onclick="goToPage(2)"></div>
                 </div>
 
                 <div class="home-bar"></div>
@@ -2026,6 +2168,60 @@
                     openApp(appName);
                 });
             });
+
+            // 主页滑动切换
+            const homePages = document.getElementById('homePages');
+            let pageStartX = 0;
+            let isPageSwiping = false;
+            let currentPage = 1;
+
+            homePages.addEventListener('touchstart', (e) => {
+                pageStartX = e.touches[0].clientX;
+                isPageSwiping = true;
+            });
+
+            homePages.addEventListener('touchmove', (e) => {
+                if (!isPageSwiping) return;
+                const currentX = e.touches[0].clientX;
+                const diff = currentX - pageStartX;
+                
+                if (Math.abs(diff) > 30) {
+                    if (diff > 0 && currentPage > 1) {
+                        goToPage(currentPage - 1);
+                        isPageSwiping = false;
+                    } else if (diff < 0 && currentPage < 2) {
+                        goToPage(currentPage + 1);
+                        isPageSwiping = false;
+                    }
+                }
+            });
+
+            homePages.addEventListener('touchend', () => {
+                isPageSwiping = false;
+            });
+
+            // 鼠标滑动支持
+            homePages.addEventListener('mousedown', (e) => {
+                pageStartX = e.clientX;
+                isPageSwiping = true;
+            });
+
+            document.addEventListener('mouseup', (e) => {
+                if (!isPageSwiping) return;
+                const diff = e.clientX - pageStartX;
+                
+                if (Math.abs(diff) > 50) {
+                    if (diff > 0 && currentPage > 1) {
+                        goToPage(currentPage - 1);
+                    } else if (diff < 0 && currentPage < 2) {
+                        goToPage(currentPage + 1);
+                    }
+                }
+                isPageSwiping = false;
+            });
+
+            // 加载保存的头像
+            loadMainAvatar();
         });
 
         // ==================== 时间更新 ====================
@@ -2043,6 +2239,59 @@
             const day = now.getDate();
             const dateStr = `${weekDays[now.getDay()]} ${month}月${day}日`;
             document.getElementById('lockDate').textContent = dateStr;
+        }
+
+        // ==================== 主页切换 ====================
+        let currentHomePage = 1;
+
+        function goToPage(pageNum) {
+            const page1 = document.getElementById('homePage1');
+            const page2 = document.getElementById('homePage2');
+            const dots = document.querySelectorAll('.page-dot');
+
+            if (pageNum === 1) {
+                page1.classList.remove('hidden-right');
+                page1.classList.add('active');
+                page2.classList.add('hidden-right');
+                page2.classList.remove('active');
+                dots[0].classList.add('active');
+                dots[1].classList.remove('active');
+            } else {
+                page1.classList.add('hidden-right');
+                page1.classList.remove('active');
+                page2.classList.remove('hidden-right');
+                page2.classList.add('active');
+                dots[0].classList.remove('active');
+                dots[1].classList.add('active');
+            }
+            currentHomePage = pageNum;
+        }
+
+        // 主页头像
+        function loadMainAvatar() {
+            const savedAvatar = localStorage.getItem('mainAvatar');
+            if (savedAvatar) {
+                const avatarCircle = document.getElementById('mainAvatarCircle');
+                avatarCircle.innerHTML = `<img src="${savedAvatar}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">`;
+                const nameLabel = avatarCircle.nextElementSibling;
+                if (nameLabel && nameLabel.classList.contains('avatar-name')) {
+                    nameLabel.textContent = '点击更换头像';
+                }
+            }
+        }
+
+        function handleMainAvatarSelect(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                localStorage.setItem('mainAvatar', e.target.result);
+                loadMainAvatar();
+                showToast('头像已更换');
+            };
+            reader.readAsDataURL(file);
+            event.target.value = '';
         }
 
         // ==================== 锁屏/解锁 ====================
@@ -2646,3 +2895,4 @@
     </script>
 </body>
 </html>
+
