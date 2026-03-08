@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <link rel="apple-touch-icon" href="https://picui.ogmua.cn/s1/2026/03/06/69aa9b56e1bdb.webp">
+    <link rel="apple-touch-icon" href="https://picui.ogmua.cn/s1/2026/03/06/69aac2601f6a5.webp">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>小手机 - 模拟器</title>
+    <title>Ukiuk</title>
     <style>
         /* 全局重置 */
         * {
@@ -476,6 +476,17 @@
             transform: scale(0.98);
         }
 
+        /* 主屏幕容器 - 用于滑动 */
+        .home-screens-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            overflow: hidden;
+        }
+
         /* 主屏幕 */
         .home-screen {
             position: absolute;
@@ -487,14 +498,40 @@
             padding-top: 47px;
             display: flex;
             flex-direction: column;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.3s ease;
-        }
-
-        .home-screen.active {
             opacity: 1;
             pointer-events: auto;
+            transition: transform 0.3s ease;
+        }
+
+        .home-screen.page-1 {
+            transform: translateX(0);
+        }
+
+        .home-screen.page-2 {
+            transform: translateX(100%);
+        }
+
+        /* 页面指示器（小圆点） */
+        .page-indicator {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            padding: 10px 0;
+            z-index: 50;
+        }
+
+        .page-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .page-dot.active {
+            background: rgba(0, 0, 0, 0.6);
+            width: 20px;
+            border-radius: 4px;
         }
 
         /* 应用程序网格 */
@@ -1557,6 +1594,149 @@
             text-align: center;
         }
 
+        /* 相机页面 */
+        .camera-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            overflow: hidden;
+        }
+
+        #cameraPreview {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .camera-controls {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            pointer-events: none;
+        }
+
+        .camera-top {
+            padding: 20px 16px;
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .camera-close {
+            width: 30px;
+            height: 30px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 16px;
+            pointer-events: auto;
+            cursor: pointer;
+        }
+
+        .camera-bottom {
+            padding: 30px 0 40px;
+            display: flex;
+            justify-content: center;
+            pointer-events: auto;
+        }
+
+        .camera-shutter {
+            width: 70px;
+            height: 70px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: transform 0.1s;
+        }
+
+        .camera-shutter:active {
+            transform: scale(0.9);
+        }
+
+        .shutter-inner {
+            width: 54px;
+            height: 54px;
+            background: white;
+            border-radius: 50%;
+            border: 3px solid #ccc;
+        }
+
+        .camera-flash {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: white;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.1s;
+        }
+
+        .camera-flash.active {
+            opacity: 0.8;
+        }
+
+        /* 相册页面 */
+        .gallery-content {
+            padding: 0;
+            background: #f2f2f2;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2px;
+            padding: 2px;
+        }
+
+        .gallery-item {
+            aspect-ratio: 1;
+            background: #e5e5e5;
+            overflow: hidden;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .gallery-item:active {
+            opacity: 0.8;
+        }
+
+        .gallery-add {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #e5e5e5;
+            aspect-ratio: 1;
+            cursor: pointer;
+        }
+
+        .gallery-add:active {
+            background: #d5d5d5;
+        }
+
+        .gallery-add-icon {
+            font-size: 40px;
+            color: #8e8e93;
+        }
+
         /* Toast提示 */
         .toast {
             position: absolute;
@@ -1678,104 +1858,141 @@
             </div>
 
             <!-- 主屏幕 -->
-            <div class="home-screen" id="homeScreen">
-                <!-- 桌面小组件 -->
-                <div class="widget-container">
-                    <!-- 顶部信息区 -->
-                    <div class="widget-header">
-                        <div class="widget-top-info">
-                            <div class="widget-date" id="widgetDate">3/5</div>
-                            <div class="widget-time">
-                                <span class="widget-time-text" id="widgetTime">9:32 PM</span>
-                                <span class="widget-time-format" onclick="toggleTimeFormat()">R 24</span>
-                            </div>
-                        </div>
-                        <div class="widget-project">
-                            <div>
-                                <div class="widget-project-label">Your last project</div>
-                                <div class="widget-project-info">
-                                    <span class="widget-project-name">T.029</span>
-                                    <span class="widget-project-fav">FAV</span>
+            <div class="home-screens-container" id="homeScreensContainer">
+                <!-- 第一页 -->
+                <div class="home-screen page-1 active" id="homeScreen1">
+                    <!-- 桌面小组件 -->
+                    <div class="widget-container">
+                        <!-- 顶部信息区 -->
+                        <div class="widget-header">
+                            <div class="widget-top-info">
+                                <div class="widget-date" id="widgetDate">3/5</div>
+                                <div class="widget-time">
+                                    <span class="widget-time-text" id="widgetTime">9:32 PM</span>
+                                    <span class="widget-time-format" onclick="toggleTimeFormat()">R 24</span>
                                 </div>
                             </div>
-                            <div class="widget-project-icons">
-                                <span>🎧</span>
-                                <span>☰</span>
+                            <div class="widget-project">
+                                <div>
+                                    <div class="widget-project-label">Your last project</div>
+                                    <div class="widget-project-info">
+                                        <span class="widget-project-name">T.029</span>
+                                        <span class="widget-project-fav">FAV</span>
+                                    </div>
+                                </div>
+                                <div class="widget-project-icons">
+                                    <span>🎧</span>
+                                    <span>☰</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 中间组件区域 -->
+                        <div class="widget-middle">
+                            <!-- 左侧音乐播放器 -->
+                            <div class="widget-music">
+                                <div class="music-album" onclick="document.getElementById('albumCoverInput').click()">
+                                    <img id="albumCoverImg" class="music-album-img" src="" style="display:none; width:100%;height:100%;object-fit:cover;border-radius:16px;">
+                                    <div class="music-album-art" id="albumArtPlaceholder"></div>
+                                    <span class="music-heart">♡</span>
+                                </div>
+                                <input type="file" id="albumCoverInput" accept="image/*" style="display:none;" onchange="handleAlbumCoverSelect(event)">
+                                <input type="text" class="music-track-input" id="musicTrackInput" placeholder="输入曲目名称..." onchange="updateMusicTrack()">
+                                <div class="music-controls">
+                                    <span>⏮</span>
+                                    <span>⏭</span>
+                                </div>
+                            </div>
+
+                            <!-- 右侧头像组件 -->
+                            <div class="widget-profile">
+                                <div class="profile-avatar" onclick="document.getElementById('profileAvatarInput').click()">
+                                    <img id="profileAvatarImg" src="" style="display:none; width:100%;height:100%;object-fit:cover;border-radius:50%;">
+                                    <span id="profileAvatarText">FT</span>
+                                </div>
+                                <input type="file" id="profileAvatarInput" accept="image/*" style="display:none;" onchange="handleProfileAvatarSelect(event)">
+                                <input type="text" class="profile-name-input" id="profileNameInput" placeholder="输入名字..." onchange="updateProfileName()">
+                            </div>
+                        </div>
+
+                        <!-- 底部上传按钮 -->
+                        <div class="widget-upload">
+                            <div class="widget-upload-left">
+                                <span>⬆</span>
+                                <span>upload</span>
+                            </div>
+                            <div class="widget-upload-camera">📷</div>
+                        </div>
+                    </div>
+
+                    <div class="dock-container">
+                        <div class="dock">
+                            <div class="dock-item" data-app="camera">
+                                <div class="dock-icon"><img src="https://picui.ogmua.cn/s1/2026/03/06/69aaa0306093a.webp" alt="相机"></div>
+                                <span class="dock-name">相机</span>
+                            </div>
+                            <div class="dock-item" data-app="gallery">
+                                <div class="dock-icon"><img src="https://picui.ogmua.cn/s1/2026/03/06/69aaa0304bab2.webp" alt="照片"></div>
+                                <span class="dock-name">照片</span>
+                            </div>
+                            <div class="dock-item">
+                                <div class="dock-icon">☁️</div>
+                                <span class="dock-name">云盘</span>
                             </div>
                         </div>
                     </div>
 
-                    <!-- 中间组件区域 -->
-                    <div class="widget-middle">
-                        <!-- 左侧音乐播放器 -->
-                        <div class="widget-music">
-                            <div class="music-album" onclick="document.getElementById('albumCoverInput').click()">
-                                <img id="albumCoverImg" class="music-album-img" src="" style="display:none; width:100%;height:100%;object-fit:cover;border-radius:16px;">
-                                <div class="music-album-art" id="albumArtPlaceholder"></div>
-                                <span class="music-heart">♡</span>
-                            </div>
-                            <input type="file" id="albumCoverInput" accept="image/*" style="display:none;" onchange="handleAlbumCoverSelect(event)">
-                            <input type="text" class="music-track-input" id="musicTrackInput" placeholder="输入曲目名称..." onchange="updateMusicTrack()">
-                            <div class="music-controls">
-                                <span>⏮</span>
-                                <span>⏭</span>
-                            </div>
-                        </div>
-
-                        <!-- 右侧头像组件 -->
-                        <div class="widget-profile">
-                            <div class="profile-avatar" onclick="document.getElementById('profileAvatarInput').click()">
-                                <img id="profileAvatarImg" src="" style="display:none; width:100%;height:100%;object-fit:cover;border-radius:50%;">
-                                <span id="profileAvatarText">FT</span>
-                            </div>
-                            <input type="file" id="profileAvatarInput" accept="image/*" style="display:none;" onchange="handleProfileAvatarSelect(event)">
-                            <input type="text" class="profile-name-input" id="profileNameInput" placeholder="输入名字..." onchange="updateProfileName()">
-                        </div>
+                    <!-- 页面指示器 -->
+                    <div class="page-indicator" id="pageIndicator1">
+                        <div class="page-dot active" data-page="1"></div>
+                        <div class="page-dot" data-page="2"></div>
                     </div>
 
-                    <!-- 底部上传按钮 -->
-                    <div class="widget-upload">
-                        <div class="widget-upload-left">
-                            <span>⬆</span>
-                            <span>upload</span>
-                        </div>
-                        <div class="widget-upload-camera">📷</div>
-                    </div>
+                    <div class="home-bar"></div>
                 </div>
 
-                <div class="apps-grid">
-                    <div class="app-item" data-app="wechat">
-                        <div class="app-icon wechat"><img src="https://picui.ogmua.cn/s1/2026/03/06/69aaa030471c0.webp" alt="微信"></div>
-                        <span class="app-name">微信</span>
+                <!-- 第二页 -->
+                <div class="home-screen page-2" id="homeScreen2">
+                    <div class="apps-grid" style="margin-top: 20px;">
+                        <div class="app-item" data-app="wechat">
+                            <div class="app-icon wechat"><img src="https://picui.ogmua.cn/s1/2026/03/06/69aaa030471c0.webp" alt="微信"></div>
+                            <span class="app-name">微信</span>
+                        </div>
+                        <div class="app-item" data-app="contacts">
+                            <div class="app-icon contacts"><img src="https://picui.ogmua.cn/s1/2026/03/06/69aaa03005831.webp" alt="通讯录"></div>
+                            <span class="app-name">通讯录</span>
+                        </div>
+                        <div class="app-item" data-app="settings">
+                            <div class="app-icon settings"><img src="https://picui.ogmua.cn/s1/2026/03/06/69aaa03077e2b.webp" alt="设置"></div>
+                            <span class="app-name">设置</span>
+                        </div>
                     </div>
-                    <div class="app-item" data-app="contacts">
-                        <div class="app-icon contacts"><img src="https://picui.ogmua.cn/s1/2026/03/06/69aaa03005831.webp" alt="通讯录"></div>
-                        <span class="app-name">通讯录</span>
-                    </div>
-                    <div class="app-item" data-app="settings">
-                        <div class="app-icon settings"><img src="https://picui.ogmua.cn/s1/2026/03/06/69aaa03077e2b.webp" alt="设置"></div>
-                        <span class="app-name">设置</span>
-                    </div>
-                </div>
 
-                <div class="dock-container">
-                    <div class="dock">
-                        <div class="dock-item">
-                            <div class="dock-icon"><img src="https://picui.ogmua.cn/s1/2026/03/06/69aaa0306093a.webp" alt="相机"></div>
-                            <span class="dock-name">相机</span>
-                        </div>
-                        <div class="dock-item">
-                            <div class="dock-icon"><img src="https://picui.ogmua.cn/s1/2026/03/06/69aaa0304bab2.webp" alt="照片"></div>
-                            <span class="dock-name">照片</span>
-                        </div>
-                        <div class="dock-item">
-                            <div class="dock-icon">☁️</div>
-                            <span class="dock-name">云盘</span>
+                    <div class="dock-container">
+                        <div class="dock">
+                            <div class="dock-item" data-app="camera">
+                                <div class="dock-icon"><img src="https://picui.ogmua.cn/s1/2026/03/06/69aaa0306093a.webp" alt="相机"></div>
+                                <span class="dock-name">相机</span>
+                            </div>
+                            <div class="dock-item" data-app="gallery">
+                                <div class="dock-icon"><img src="https://picui.ogmua.cn/s1/2026/03/06/69aaa0304bab2.webp" alt="照片"></div>
+                                <span class="dock-name">照片</span>
+                            </div>
+                            <div class="dock-item">
+                                <div class="dock-icon">☁️</div>
+                                <span class="dock-name">云盘</span>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="home-bar"></div>
+                    <!-- 页面指示器 -->
+                    <div class="page-indicator" id="pageIndicator2">
+                        <div class="page-dot" data-page="1"></div>
+                        <div class="page-dot active" data-page="2"></div>
+                    </div>
+
+                    <div class="home-bar"></div>
+                </div>
             </div>
 
             <!-- 微信页面 -->
@@ -1923,6 +2140,38 @@
                 </div>
             </div>
 
+            <!-- 相机页面 -->
+            <div class="app-screen" id="cameraScreen">
+                <div class="camera-container">
+                    <video id="cameraPreview" autoplay playsinline></video>
+                    <canvas id="cameraCanvas" style="display: none;"></canvas>
+                    <div class="camera-controls">
+                        <div class="camera-top">
+                            <span class="camera-close" onclick="closeApp('camera')">✕</span>
+                        </div>
+                        <div class="camera-bottom">
+                            <div class="camera-shutter" onclick="takePhoto()">
+                                <div class="shutter-inner"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="camera-flash" id="cameraFlash"></div>
+                </div>
+            </div>
+
+            <!-- 相册页面 -->
+            <div class="app-screen" id="galleryScreen">
+                <div class="app-header">
+                    <span class="back-btn" onclick="closeApp('gallery')">‹</span>
+                    <span class="title">相册</span>
+                    <span class="action-btn" onclick="addPhotoFromGallery()">+</span>
+                </div>
+                <div class="app-content gallery-content">
+                    <div class="gallery-grid" id="galleryGrid"></div>
+                </div>
+                <input type="file" id="galleryFileInput" accept="image/*" style="display: none;" onchange="handleGalleryFileSelect(event)">
+            </div>
+
             <!-- Toast提示 -->
             <div class="toast" id="toast"></div>
 
@@ -2058,7 +2307,124 @@
                     openApp(appName);
                 });
             });
+
+            // Dock应用点击事件
+            document.querySelectorAll('.dock-item').forEach(item => {
+                item.addEventListener('click', () => {
+                    const appName = item.dataset.app;
+                    if (appName) {
+                        openApp(appName);
+                    }
+                });
+            });
+
+            // 主页滑动切换
+            initHomeScreenSwipe();
         });
+
+        // 主页滑动切换功能
+        let currentPage = 1;
+        let homeStartX = 0;
+        let homeStartY = 0;
+        let isSwiping = false;
+        let swipeThreshold = 50;
+
+        function initHomeScreenSwipe() {
+            const container = document.getElementById('homeScreensContainer');
+            if (!container) return;
+
+            // 触摸事件
+            container.addEventListener('touchstart', (e) => {
+                homeStartX = e.touches[0].clientX;
+                homeStartY = e.touches[0].clientY;
+                isSwiping = true;
+            }, { passive: true });
+
+            container.addEventListener('touchmove', (e) => {
+                if (!isSwiping) return;
+                const currentX = e.touches[0].clientX;
+                const currentY = e.touches[0].clientY;
+                
+                // 检查是否为水平滑动
+                const diffX = currentX - homeStartX;
+                const diffY = currentY - homeStartY;
+                
+                // 如果是水平滑动且超过阈值
+                if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 10) {
+                    e.preventDefault();
+                    
+                    const homeScreen1 = document.getElementById('homeScreen1');
+                    const homeScreen2 = document.getElementById('homeScreen2');
+                    
+                    if (currentPage === 1 && diffX < -swipeThreshold) {
+                        // 向左滑，从第一页到第二页
+                        goToPage(2);
+                        isSwiping = false;
+                    } else if (currentPage === 2 && diffX > swipeThreshold) {
+                        // 向右滑，从第二页到第一页
+                        goToPage(1);
+                        isSwiping = false;
+                    }
+                }
+            }, { passive: false });
+
+            container.addEventListener('touchend', () => {
+                isSwiping = false;
+            });
+
+            // 鼠标事件支持电脑端
+            container.addEventListener('mousedown', (e) => {
+                homeStartX = e.clientX;
+                homeStartY = e.clientY;
+                isSwiping = true;
+            });
+
+            container.addEventListener('mousemove', (e) => {
+                if (!isSwiping) return;
+                
+                const diffX = e.clientX - homeStartX;
+                const diffY = e.clientY - homeStartY;
+                
+                // 如果是水平滑动
+                if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 10) {
+                    if (currentPage === 1 && diffX < -swipeThreshold) {
+                        goToPage(2);
+                        isSwiping = false;
+                    } else if (currentPage === 2 && diffX > swipeThreshold) {
+                        goToPage(1);
+                        isSwiping = false;
+                    }
+                }
+            });
+
+            container.addEventListener('mouseup', () => {
+                isSwiping = false;
+            });
+
+            container.addEventListener('mouseleave', () => {
+                isSwiping = false;
+            });
+        }
+
+        function goToPage(pageNum) {
+            currentPage = pageNum;
+            
+            const homeScreen1 = document.getElementById('homeScreen1');
+            const homeScreen2 = document.getElementById('homeScreen2');
+            const dots = document.querySelectorAll('.page-dot');
+            
+            if (pageNum === 1) {
+                homeScreen1.style.transform = 'translateX(0)';
+                homeScreen2.style.transform = 'translateX(100%)';
+                dots[0].classList.add('active');
+                dots[1].classList.remove('active');
+            } else {
+                homeScreen1.style.transform = 'translateX(-100%)';
+                homeScreen2.style.transform = 'translateX(0)';
+                dots[0].classList.remove('active');
+                dots[1].classList.add('active');
+            }
+        }
 
         // ==================== 时间更新 ====================
         let is24HourFormat = false;
@@ -2187,12 +2553,24 @@
             const screenMap = {
                 'wechat': 'wechatScreen',
                 'contacts': 'contactsScreen',
-                'settings': 'settingsScreen'
+                'settings': 'settingsScreen',
+                'camera': 'cameraScreen',
+                'gallery': 'galleryScreen'
             };
 
             const screen = document.getElementById(screenMap[appName]);
             if (screen) {
                 screen.classList.add('active');
+            }
+            
+            // 打开相机时启动摄像头
+            if (appName === 'camera') {
+                startCamera();
+            }
+            
+            // 打开相册时渲染照片
+            if (appName === 'gallery') {
+                renderGallery();
             }
         }
 
@@ -2200,13 +2578,141 @@
             const screenMap = {
                 'wechat': 'wechatScreen',
                 'contacts': 'contactsScreen',
-                'settings': 'settingsScreen'
+                'settings': 'settingsScreen',
+                'camera': 'cameraScreen',
+                'gallery': 'galleryScreen'
             };
 
             const screen = document.getElementById(screenMap[appName]);
             if (screen) {
                 screen.classList.remove('active');
             }
+            
+            // 关闭相机时停止摄像头
+            if (appName === 'camera') {
+                stopCamera();
+            }
+        }
+
+        // ==================== 相机功能 ====================
+        let cameraStream = null;
+
+        async function startCamera() {
+            try {
+                cameraStream = await navigator.mediaDevices.getUserMedia({
+                    video: { facingMode: 'environment' },
+                    audio: false
+                });
+                const video = document.getElementById('cameraPreview');
+                video.srcObject = cameraStream;
+            } catch (err) {
+                console.error('相机访问失败:', err);
+                showToast('无法访问相机，请检查权限');
+            }
+        }
+
+        function stopCamera() {
+            if (cameraStream) {
+                cameraStream.getTracks().forEach(track => track.stop());
+                cameraStream = null;
+            }
+        }
+
+        function takePhoto() {
+            const video = document.getElementById('cameraPreview');
+            const canvas = document.getElementById('cameraCanvas');
+            const flash = document.getElementById('cameraFlash');
+            
+            if (!video.videoWidth) {
+                showToast('相机未就绪');
+                return;
+            }
+
+            // 闪光灯效果
+            flash.classList.add('active');
+            setTimeout(() => flash.classList.remove('active'), 100);
+
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(video, 0, 0);
+            
+            const photoData = canvas.toDataURL('image/jpeg', 0.8);
+            savePhoto(photoData);
+            showToast('拍照成功');
+        }
+
+        function savePhoto(photoData) {
+            let photos = JSON.parse(localStorage.getItem('galleryPhotos')) || [];
+            photos.unshift({
+                id: Date.now(),
+                data: photoData,
+                timestamp: new Date().toISOString()
+            });
+            localStorage.setItem('galleryPhotos', JSON.stringify(photos));
+        }
+
+        // ==================== 相册功能 ====================
+        function renderGallery() {
+            const galleryGrid = document.getElementById('galleryGrid');
+            const photos = JSON.parse(localStorage.getItem('galleryPhotos')) || [];
+            
+            if (photos.length === 0) {
+                galleryGrid.innerHTML = `
+                    <div class="gallery-add" onclick="document.getElementById('galleryFileInput').click()">
+                        <span class="gallery-add-icon">+</span>
+                    </div>
+                `;
+                return;
+            }
+            
+            galleryGrid.innerHTML = photos.map(photo => `
+                <div class="gallery-item" onclick="viewPhoto('${photo.data}')">
+                    <img src="${photo.data}" alt="照片">
+                </div>
+            `).join('') + `
+                <div class="gallery-add" onclick="document.getElementById('galleryFileInput').click()">
+                    <span class="gallery-add-icon">+</span>
+                </div>
+            `;
+        }
+
+        function addPhotoFromGallery() {
+            document.getElementById('galleryFileInput').click();
+        }
+
+        function handleGalleryFileSelect(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                savePhoto(e.target.result);
+                renderGallery();
+                showToast('添加照片成功');
+            };
+            reader.readAsDataURL(file);
+            event.target.value = '';
+        }
+
+        function viewPhoto(photoData) {
+            // 在新窗口查看大图
+            const imgWindow = window.open('', '_blank');
+            imgWindow.document.write(`
+                <html>
+                    <head>
+                        <title>照片</title>
+                        <style>
+                            body { margin: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh; background: #000; }
+                            img { max-width: 100%; max-height: 100vh; object-fit: contain; }
+                        </style>
+                    </head>
+                    <body>
+                        <img src="${photoData}" />
+                    </body>
+                </html>
+            `);
         }
 
         // ==================== 微信功能 ====================
